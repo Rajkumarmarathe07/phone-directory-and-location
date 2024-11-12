@@ -1,0 +1,182 @@
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#define MAX_PATIENTS 100
+
+char names[MAX_PATIENTS][50];
+char phones[MAX_PATIENTS][15];
+char bloodGroups[MAX_PATIENTS][5];
+char allergies[MAX_PATIENTS][100];
+char emergencyContacts[MAX_PATIENTS][15];
+
+int current_count = 0;
+
+void addPatient();
+void searchPatient();
+void updatePatient();
+void deletePatient();
+void displayPatients();
+
+int main() {
+   
+    strcpy(names[0], "Gunaji Mohite");
+    strcpy(phones[0], "1234567890");
+    strcpy(bloodGroups[0], "A+");
+    strcpy(allergies[0], "Peanuts");
+    strcpy(emergencyContacts[0], "0987654321");
+    
+    strcpy(names[1], "Altamash Mujawar");
+    strcpy(phones[1], "2345678901");
+    strcpy(bloodGroups[1], "O-");
+    strcpy(allergies[1], "None");
+    strcpy(emergencyContacts[1], "1234567891");
+    
+    strcpy(names[2], "Rajkumar Marathe");
+    strcpy(phones[2], "3456789012");
+    strcpy(bloodGroups[2], "B+");
+    strcpy(allergies[2], "Milk");
+    strcpy(emergencyContacts[2], "2345678902");
+
+    strcpy(names[3], "ashlesha Humne");
+    strcpy(phones[3], "4334567890");
+    strcpy(bloodGroups[3], "AB+");
+    strcpy(allergies[3], "Banana");
+    strcpy(emergencyContacts[3], "9049038351");
+    
+    
+    current_count = 4;  
+    int choice;
+
+    while (1) {
+        printf("\nMedical Records Directory\n");
+        printf("1. Add New Patient\n");
+        printf("2. Search Patient by Name\n");
+        printf("3. Update Patient Details\n");
+        printf("4. Delete Patient Record\n");
+        printf("5. Display All Patients\n");
+        printf("6. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        
+        switch (choice) {
+            case 1:
+                addPatient();
+                break;
+            case 2:
+                searchPatient();
+                break;
+            case 3:
+                updatePatient();
+                break;
+            case 4:
+                deletePatient();
+                break;
+            case 5:
+                displayPatients();
+                break;
+            case 6:
+                printf("Exiting the program.\n");
+                return 0;
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    }
+    return 0;
+}
+
+void addPatient() {
+    if (current_count >= MAX_PATIENTS) {
+        printf("Patient directory is full; cannot add new records.\n");
+        return;
+    }
+    
+    printf("Enter patient name: ");
+    scanf(" %[^\n]", names[current_count]);
+    printf("Enter phone number: ");
+    scanf("%s", phones[current_count]);
+    printf("Enter blood group: ");
+    scanf("%s", bloodGroups[current_count]);
+    printf("Enter allergies (type 'None' if no allergies): ");
+    scanf(" %[^\n]", allergies[current_count]);
+    printf("Enter emergency contact number: ");
+    scanf("%s", emergencyContacts[current_count]);
+    
+    current_count++;
+    printf("Patient record added successfully!\n");
+}
+
+void searchPatient() {
+    char name[50];
+    printf("Enter patient name to search: ");
+    scanf(" %[^\n]", name);
+    
+    for (int i = 0; i < current_count; i++) {
+        if (strcmp(names[i], name) == 0) {
+            printf("\nPatient Found:\n");
+            printf("Name: %s\nPhone: %s\nBlood Group: %s\nAllergies: %s\nEmergency Contact: %s\n",
+                   names[i], phones[i], bloodGroups[i], allergies[i], emergencyContacts[i]);
+            return;
+        }
+    }
+    printf("Patient not found.\n");
+}
+
+void updatePatient() {
+    char name[50];
+    printf("Enter patient name to update: ");
+    scanf(" %[^\n]", name);
+    
+    for (int i = 0; i < current_count; i++) {
+        if (strcmp(names[i], name) == 0) {
+            printf("Enter new phone number: ");
+            scanf("%s", phones[i]);
+            printf("Enter new blood group: ");
+            scanf("%s", bloodGroups[i]);
+            printf("Enter new allergies (type 'None' if no allergies): ");
+            scanf(" %[^\n]", allergies[i]);
+            printf("Enter new emergency contact number: ");
+            scanf("%s", emergencyContacts[i]);
+            
+            printf("Patient record updated successfully.\n");
+            return;
+        }
+    }
+    printf("Patient not found.\n");
+}
+
+void deletePatient() {
+    char name[50];
+    printf("Enter patient name to delete: ");
+    scanf(" %[^\n]", name);
+    
+    for (int i = 0; i < current_count; i++) {
+        if (strcmp(names[i], name) == 0) {
+            
+            strcpy(names[i], names[current_count - 1]);
+            strcpy(phones[i], phones[current_count - 1]);
+            strcpy(bloodGroups[i], bloodGroups[current_count - 1]);
+            strcpy(allergies[i], allergies[current_count - 1]);
+            strcpy(emergencyContacts[i], emergencyContacts[current_count - 1]);
+            
+            
+            current_count--;
+            printf("Patient record deleted successfully.\n");
+            return;
+        }
+    }
+    printf("Patient not found.\n");
+}
+
+void displayPatients() {
+    if (current_count == 0) {
+        printf("No patients in the directory.\n");
+        return;
+    }
+
+    printf("\nAll Patient Records:\n");
+    for (int i = 0; i < current_count; i++) {
+        printf("Name: %s\nPhone: %s\nBlood Group: %s\nAllergies: %s\nEmergency Contact: %s\n\n",
+               names[i], phones[i], bloodGroups[i], allergies[i], emergencyContacts[i]);
+               sleep(1);
+    }
+}
